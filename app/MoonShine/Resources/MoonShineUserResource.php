@@ -78,10 +78,11 @@ class MoonShineUserResource extends Resource
                         //     ->showOnExport(),
 
                         Image::make(trans('moonshine::ui.resource.avatar'), 'avatar')
+                            ->hideOnUpdate()
                             ->removable()
                             ->showOnExport()
-                            ->disk('public')
-                            // ->disk(config('filesystems.default'))
+                            // ->disk('public')
+                            ->disk(config('filesystems.default'))
                             ->dir('moonshine_users')
                             ->allowedExtensions(['jpg', 'png', 'jpeg', 'gif']),
 
