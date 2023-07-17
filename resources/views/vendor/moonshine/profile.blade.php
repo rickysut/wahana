@@ -24,8 +24,8 @@
             name="username"
             label="{{ trans('moonshine::ui.login.username') }}"
             required
-        > --}}
-            {{-- <x-moonshine::form.input
+        >
+            <x-moonshine::form.input
                 id="username"
                 type="text"
                 name="username"
@@ -35,8 +35,8 @@
                 required
                 value="{{ old('username', auth(config('moonshine.auth.guard'))->user()
                         ->{config('moonshine.auth.fields.username', 'email')}) }}"
-            /> --}}
-        {{-- </x-moonshine::form.input-wrapper> --}}
+            />
+        </x-moonshine::form.input-wrapper> --}}
 
         <x-moonshine::form.input-wrapper
             name="email"
@@ -95,8 +95,8 @@
                 :files="[auth(config('moonshine.auth.guard'))->user()
                         ->{config('moonshine.auth.fields.avatar', 'avatar')} ?? null]"
                 dir="moonshine_users"
-                :path="Storage::url('/')"
-                :removable="true"
+                :path="Storage::disk('public')->url('/')"
+                :removable="true"   
                 :imageable="true"
             />
         </x-moonshine::form.input-wrapper>

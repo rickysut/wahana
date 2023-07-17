@@ -83,7 +83,10 @@ return [
             'imported' => 'Imported',
             'file_required' => 'File is required',
             'extension_not_supported' => 'File extension not supported'
-        ]
+        ],
+
+        'destination' => 'Destination page',
+        'news' => 'News',
     ],
     'subtitle' => [
         'system' => 'System',
@@ -114,6 +117,9 @@ return [
             'imported' => 'Imported',
             'file_required' => 'File is required',
             'extension_not_supported' => 'File extension not supported'
-        ]
+        ],
+
+        'destination' => 'All destination URL for targeting',
+        'news' => 'News editor',
     ]
 ];
