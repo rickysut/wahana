@@ -61,7 +61,7 @@ class ClientResource extends Resource
             File::make('Image File', 'image')
             ->hideOnDetail()
             ->hideOnIndex()
-            ->customName(fn(UploadedFile $file) => $file->storeAs('client', 'client_' . strval($noclient) . '.' . $file->extension(), 'local'), ), 
+            ->customName(fn(UploadedFile $file) => $file->storeAs('client', $file->getClientOriginalName(), 'local'), ), 
             Image::make('Image', 'image')
             ->hideOnCreate()
             ->hideOnUpdate(),
