@@ -87,6 +87,7 @@ return [
 
         'destination' => 'Destination page',
         'news' => 'News',
+        'client' => 'Clients',
     ],
     'subtitle' => [
         'system' => 'System',
@@ -121,5 +122,6 @@ return [
 
         'destination' => 'All destination URL for targeting',
         'news' => 'News editor',
+        'client' => 'Client List',
     ]
 ];

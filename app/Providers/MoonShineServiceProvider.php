@@ -10,6 +10,7 @@ use MoonShine\Menu\MenuItem;
 use MoonShine\Models\MoonshineUserRole;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\NewsResource;
+use App\MoonShine\Resources\ClientResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 
 class MoonShineServiceProvider extends ServiceProvider
@@ -22,6 +23,10 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('moonshine::ui.resource.news', new NewsResource())
                     ->translatable()
                     ->icon('heroicons.puzzle-piece'),
+                
+                MenuItem::make('moonshine::ui.resource.client', new ClientResource())
+                    ->translatable()
+                    ->icon('heroicons.outline.users'),
                     
 
 

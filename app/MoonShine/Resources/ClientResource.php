@@ -3,18 +3,20 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Destination;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Client;
+
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
 use MoonShine\Fields\Text;
-use MoonShine\Filters\TextFilter;
-use Illuminate\Support\Facades\Log;
+use MoonShine\Fields\File;
+use MoonShine\Fields\Image;
+use Illuminate\Http\UploadedFile;
 
-class DestinationResource extends Resource
+class ClientResource extends Resource
 {
-	public static string $model = Destination::class;
+	public static string $model = Client::class;
+
 
 	public string $titleField = 'name';
 
@@ -24,12 +26,12 @@ class DestinationResource extends Resource
 
     public function title(): string
     {
-        return trans('moonshine::ui.resource.destination');
+        return trans('moonshine::ui.resource.client');
     }
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.destination');
+        return trans('moonshine::ui.subtitle.client');
     }
 
     public static bool $withPolicy = true;
@@ -39,6 +41,7 @@ class DestinationResource extends Resource
     
     public static int $itemsPerPage = 10; // Number of items per page
 
+    
 
     public function trStyles(Model $item, int $index): string
     {
@@ -48,14 +51,20 @@ class DestinationResource extends Resource
 
         return parent::trStyles($item, $index);
     }
-	
-    
-    public function fields(): array
+
+	public function fields(): array
 	{
+        $noclient = Client::count('id')+1;
 		return [
-		    ID::make()->sortable()->hideOnCreate()->hideOnIndex(),
-            Text::make('Name', 'name'),
-            Text::make('URL' ,'url'),
+		    ID::make()->sortable()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
+            Text::make('Client Name', 'name'),
+            File::make('Image File', 'image')
+            ->hideOnDetail()
+            ->hideOnIndex()
+            ->customName(fn(UploadedFile $file) => $file->storeAs('client', 'client_' . strval($noclient) . '.' . $file->extension(), 'local'), ), 
+            Image::make('Image', 'image')
+            ->hideOnCreate()
+            ->hideOnUpdate(),
         ];
 	}
 
@@ -66,15 +75,12 @@ class DestinationResource extends Resource
 
     public function search(): array
     {
-        return ['id', 'name', 'url'];
+        return ['id', 'name'];
     }
 
     public function filters(): array
     {
-        return [
-            TextFilter::make('Name', 'name'),
-            TextFilter::make('URL', 'url'),
-        ];
+        return [];
     }
 
     public function actions(): array
@@ -82,5 +88,10 @@ class DestinationResource extends Resource
         return [
             FiltersAction::make(trans('moonshine::ui.filters')),
         ];
+    }
+
+    protected function beforeCreating(Model $item)
+    {
+        
     }
 }
