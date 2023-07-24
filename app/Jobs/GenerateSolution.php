@@ -38,9 +38,9 @@ class GenerateSolution implements ShouldQueue
     public function handle()
     {
         $destinationFile = '/var/www/wahanatatar.com/sections/solutions.php';
-        $assetFolder = '/var/www/wahanatatar.com/assets/img/';
-        // $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar/sections/solutions.php';
-        // $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar/assets/img/';
+        $assetFolder = '/var/www/wahanatatar.com/assets/img/solutions/';
+        // $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/sections/solutions.php';
+        // $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/';
         $solutions = Solution::all();
         
         //make: sections/solutions.php
@@ -61,7 +61,7 @@ class GenerateSolution implements ShouldQueue
         foreach($solutions as $item){
             $fImg = Storage::path($item->image);
             if (copy($fImg, $assetFolder . basename($fImg))) {
-                Log::info("File " . $fImg ." copy successfully.");
+                Log::info("File " . $assetFolder . basename($fImg) ." copy successfully.");
             } else {
                 Log::info("Failed to copy ".$fImg);
             }
