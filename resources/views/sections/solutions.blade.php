@@ -17,7 +17,7 @@
                         </div>
                         <div class="details position-relative flex-grow-1">
                             <div class="icon">
-                                <i class="fa fa-star-half-alt"></i>
+                                <i class="{{ $item->icon }}"></i>
                             </div>
                             <a href="/solutions/{{ \Str::slug($item->title) }}.php" class="stretched-link text-warning">
                                 <h3>{{ $item->title }}</h3>

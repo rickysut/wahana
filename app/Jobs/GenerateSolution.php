@@ -39,23 +39,36 @@ class GenerateSolution implements ShouldQueue
     {
         $destinationFile = '/var/www/wahanatatar.com/sections/solutions.php';
         $assetFolder = '/var/www/wahanatatar.com/assets/img/solutions/';
+        $solutionIndex = '/var/www/wahanatatar.com/solutions/indexblog.php';
         // $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/sections/solutions.php';
         // $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/';
         $solutions = Solution::all();
         
         //make: sections/solutions.php
         $html = View::make('sections.solutions')->with('solutions', $solutions)->render();
+        $index = View::make('solutions.indexblog')->with('solutions', $solutions)->render();
         // Log::info($html);
         Storage::put('sections/solutions.php', $html);
+        Storage::put('sections/indexblog.php', $index);
 
         if (File::exists($destinationFile)) {
             File::delete($destinationFile);
+        }
+        if (File::exists($solutionIndex)) {
+            File::delete($solutionIndex);
         }
         $fname = Storage::path('sections/solutions.php');
         if (copy($fname, $destinationFile)) {
             Log::info("File " . $fname ." copy successfully.");
         } else {
             Log::info("Failed to copy solutions.php.");
+        }
+
+        $fname = Storage::path('sections/indexblog.php');
+        if (copy($fname, $solutionIndex)) {
+            Log::info("File " . $solutionIndex ." copy successfully.");
+        } else {
+            Log::info("Failed to copy solutions/indexblog.php.");
         }
 
         foreach($solutions as $item){

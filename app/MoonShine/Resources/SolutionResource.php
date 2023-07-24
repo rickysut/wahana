@@ -76,7 +76,7 @@ class SolutionResource extends Resource
                                 ->customName(fn(UploadedFile $file) => $file->storeAs('solutions', $file->getClientOriginalName(), 'local'), )
                                 ,
                             Text::make('Icon', 'icon')
-                                ->hint('Ref. icon to Fontsowesome icon https://fontawesome.com/v5/search'),
+                                ->hint('Ref. icon to Bootstrap icon https://icons.getbootstrap.com/icons'),
                         ])
                             ->justifyAlign('start') // Based on tailwind classes justify-[param]
                             ->itemsAlign('center'), // Based on tailwind classes items-[param]
