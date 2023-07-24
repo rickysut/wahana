@@ -56,15 +56,11 @@ class ClientResource extends Resource
 	{
         $noclient = Client::count('id')+1;
 		return [
-		    ID::make()->sortable()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
+		    ID::make()->sortable()->hideOnIndex()->hideOnCreate()->hideOnUpdate()->hideOnDetail(),
             Text::make('Client Name', 'name'),
-            File::make('Image File', 'image')
-            ->hideOnDetail()
-            ->hideOnIndex()
-            ->customName(fn(UploadedFile $file) => $file->storeAs('client', $file->getClientOriginalName(), 'local'), ), 
             Image::make('Image', 'image')
-            ->hideOnCreate()
-            ->hideOnUpdate(),
+            ->customName(fn(UploadedFile $file) => $file->storeAs('client', $file->getClientOriginalName(), 'local'), ), 
+            
         ];
 	}
 

@@ -88,6 +88,8 @@ return [
         'destination' => 'Destination page',
         'news' => 'News',
         'client' => 'Clients',
+        'solution' => 'Solutions',
+        'detailsolution' => 'Detail Solution',
     ],
     'subtitle' => [
         'system' => 'System',
@@ -123,5 +125,7 @@ return [
         'destination' => 'All destination URL for targeting',
         'news' => 'News editor',
         'client' => 'Client List',
+        'solution' => 'Solution List',
+        'detailsolution' => 'Detail solution content',
     ]
 ];

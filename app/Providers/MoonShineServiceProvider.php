@@ -11,6 +11,7 @@ use MoonShine\Models\MoonshineUserRole;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\NewsResource;
 use App\MoonShine\Resources\ClientResource;
+use App\MoonShine\Resources\SolutionResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 
 class MoonShineServiceProvider extends ServiceProvider
@@ -18,8 +19,13 @@ class MoonShineServiceProvider extends ServiceProvider
     public function boot(): void
     {
         app(MoonShine::class)->menu([
-                //MenuItem::make('Dashboard', fn() => route('moonshine.index'))->icon('heroicons.outline.computer-desktop') ,
-
+                MenuItem::make('Dashboard', fn() => route('moonshine.index'))->icon('heroicons.outline.computer-desktop') ,
+                
+                MenuItem::make('moonshine::ui.resource.solution', new SolutionResource())
+                        ->translatable()
+                        ->icon('heroicons.outline.bolt'),
+                    
+                    
                 MenuItem::make('moonshine::ui.resource.news', new NewsResource())
                     ->translatable()
                     ->icon('heroicons.puzzle-piece'),

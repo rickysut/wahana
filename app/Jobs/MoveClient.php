@@ -34,13 +34,13 @@ class MoveClient implements ShouldQueue
     public function handle()
     {   
         $images =  Storage::files('client');
-        $destinationFolderPath = '/Users/rickysutanto/Development/LARAVEL/wahanatatar/assets/client/';
+        $destinationFolderPath = '/var/www/wahanatatar.com/assets/client/';
         // natcasesort($images);
         foreach ($images as $image) { 
             $fname = Storage::disk('local')->path($image);
-            Log::info($fname);
+            //Log::info($fname);
             $destinationFilePath = $destinationFolderPath . basename($image);
-            Log::info($destinationFilePath);
+            //Log::info($destinationFilePath);
             if (copy($fname, $destinationFilePath)) {
                 Log::info("File " . $image ." moved successfully.");
             } else {
