@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\GenerateSolution;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\MoveClient;
@@ -17,6 +18,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new MoveClient)->everyMinute()->withoutOverlapping()->after(
+            function () {}
+        );
+
+        $schedule->job(new GenerateSolution)->everyMinute()->withoutOverlapping()->after(
             function () {}
         );
     }

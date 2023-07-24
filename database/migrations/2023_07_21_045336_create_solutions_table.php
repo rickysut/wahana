@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('subtitle');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('icon')->nullable();
             $table->string('slogan')->nullable();
             $table->text('detail')->nullable();
