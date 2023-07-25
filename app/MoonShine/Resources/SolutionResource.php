@@ -17,6 +17,9 @@ use MoonShine\Decorations\Flex;
 use MoonShine\Fields\TinyMce;
 use MoonShine\Decorations\Grid;
 use MoonShine\Decorations\Column;
+use App\Jobs\GenerateSolution;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Facades\Log;
 
 class SolutionResource extends Resource
 {
@@ -86,6 +89,9 @@ class SolutionResource extends Resource
                 Column::make([
                     Block::make('Detail Information', [
                         Text::make('Slogan', 'slogan')->hideOnIndex(),
+                        Image::make('Banner Image', 'banner')
+                                ->hint('Banner image')
+                                ->customName(fn(UploadedFile $file) => $file->storeAs('solutions/banner', $file->getClientOriginalName(), 'local'), ),
                         TinyMce::make('Detail', 'detail')->hideOnIndex()
 
                     ]),
@@ -96,7 +102,10 @@ class SolutionResource extends Resource
 
 	public function rules(Model $item): array
 	{
-	    return [];
+	    return [
+            'image' => 'max:2048',
+            'banner' => 'max:2048',
+        ];
     }
 
     public function search(): array
@@ -115,4 +124,50 @@ class SolutionResource extends Resource
             FiltersAction::make(trans('moonshine::ui.filters')),
         ];
     }
+
+    protected function beforeCreating(Model $item)
+    {
+        // Event before adding an entry
+    }
+    
+    protected function afterCreated(Model $item)
+    {
+        // Event after adding a record
+        $job = new GenerateSolution();
+        $job->dispatch();
+    }
+    
+    protected function beforeUpdating(Model $item)
+    {
+        // Event before record update
+    }
+    
+    protected function afterUpdated(Model $item)
+    {
+        // Event after record update
+        $job = new GenerateSolution();
+        $job->dispatch();
+    }
+    
+    protected function beforeDeleting(Model $item)
+    {
+        // Event before record deletion
+    }
+    
+    protected function afterDeleted(Model $item)
+    {
+        // Event after record deletion
+        $job = new GenerateSolution();
+        $job->dispatch();
+    }
+    
+    protected function beforeMassDeleting(array $ids)
+    {
+        // Event before mass deletion of records
+    }
+    
+    protected function afterMassDeleted(array $ids)
+    {
+        // Event after mass deletion of records
+    } 
 }

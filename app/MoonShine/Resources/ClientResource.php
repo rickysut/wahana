@@ -12,6 +12,8 @@ use MoonShine\Fields\Text;
 use MoonShine\Fields\File;
 use MoonShine\Fields\Image;
 use Illuminate\Http\UploadedFile;
+use App\Jobs\MoveClient;
+
 
 class ClientResource extends Resource
 {
@@ -88,6 +90,47 @@ class ClientResource extends Resource
 
     protected function beforeCreating(Model $item)
     {
-        
+        // Event before adding an entry
     }
+    
+    protected function afterCreated(Model $item)
+    {
+        // Event after adding a record
+        $job = new MoveClient();
+        $job->dispatch();
+    }
+    
+    protected function beforeUpdating(Model $item)
+    {
+        // Event before record update
+    }
+    
+    protected function afterUpdated(Model $item)
+    {
+        // Event after record update
+        $job = new MoveClient();    
+        $job->dispatch();
+    }
+    
+    protected function beforeDeleting(Model $item)
+    {
+        // Event before record deletion
+    }
+    
+    protected function afterDeleted(Model $item)
+    {
+        // Event after record deletion
+        $job = new MoveClient();
+        $job->dispatch();
+    }
+    
+    protected function beforeMassDeleting(array $ids)
+    {
+        // Event before mass deletion of records
+    }
+    
+    protected function afterMassDeleted(array $ids)
+    {
+        // Event after mass deletion of records
+    } 
 }

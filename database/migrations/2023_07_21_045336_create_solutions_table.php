@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('icon')->nullable();
             $table->string('slogan')->nullable();
+            $table->string('banner')->nullable();
             $table->text('detail')->nullable();
             $table->timestamps();
         });

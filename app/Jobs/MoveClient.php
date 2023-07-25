@@ -35,6 +35,7 @@ class MoveClient implements ShouldQueue
     {   
         $images =  Storage::files('client');
         $destinationFolderPath = '/var/www/wahanatatar.com/assets/client/';
+        // $destinationFolderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/client/';
         // natcasesort($images);
         foreach ($images as $image) { 
             $fname = Storage::disk('local')->path($image);
