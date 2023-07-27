@@ -20,6 +20,8 @@ use MoonShine\Decorations\Column;
 use App\Jobs\GenerateSolution;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Log;
+use MoonShine\Fields\SwitchBoolean;
+use PhpParser\Node\Stmt\Switch_;
 
 class SolutionResource extends Resource
 {
@@ -64,9 +66,11 @@ class SolutionResource extends Resource
 		return [
             
 		    ID::make()->sortable()->hideOnCreate()->hideOnIndex()->hideOnUpdate()->hideOnDetail(),
+            
             Grid::make([
                 Column::make([
                     Block::make('Slider Information', [
+                        SwitchBoolean::make('Show at home', 'is_show')->default(true)->hideOnIndex(),  
                         Flex::make([
                             Text::make('Title', 'title'),
                             Text::make('Sub Title', 'subtitle'),
