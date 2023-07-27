@@ -85,7 +85,7 @@ class GenerateSolution implements ShouldQueue
         foreach($solutions as $item){
             if ($item->image)
             {
-                $fImg = Storage::path($item->image);
+                $fImg = Storage::disk('public')->path($item->image);
                 if (copy($fImg, $assetFolder . basename($fImg))) {
                     Log::info("File " . $assetFolder . basename($fImg) ." copy successfully.");
                 } else {
@@ -95,7 +95,7 @@ class GenerateSolution implements ShouldQueue
 
             if ($item->banner)
             {
-                $fImg = Storage::path($item->banner);
+                $fImg = Storage::disk('public')->path($item->banner);
                 if (copy($fImg, $bannerPath . basename($fImg))) {
                     Log::info("File " . $bannerPath . basename($fImg) ." copy successfully.");
                 } else {

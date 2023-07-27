@@ -76,7 +76,7 @@ class SolutionResource extends Resource
                         Flex::make([
                             Image::make('Image', 'image')
                                 ->hint('Background Image')
-                                ->customName(fn(UploadedFile $file) => $file->storeAs('solutions', $file->getClientOriginalName(), 'local'), )
+                                // ->customName(fn(UploadedFile $file) => $file->storeAs('solutions', $file->getClientOriginalName(), 'local'), )
                                 ,
                             Text::make('Icon', 'icon')
                                 ->hint('Ref. icon to Bootstrap icon https://icons.getbootstrap.com/icons'),
@@ -91,7 +91,8 @@ class SolutionResource extends Resource
                         Text::make('Slogan', 'slogan')->hideOnIndex(),
                         Image::make('Banner Image', 'banner')
                                 ->hint('Banner image')
-                                ->customName(fn(UploadedFile $file) => $file->storeAs('solutions/banner', $file->getClientOriginalName(), 'local'), ),
+                                // ->customName(fn(UploadedFile $file) => $file->storeAs('solutions/banner', $file->getClientOriginalName(), 'local'), ),
+                                ,
                         TinyMce::make('Detail', 'detail')->hideOnIndex()
 
                     ]),

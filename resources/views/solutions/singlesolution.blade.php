@@ -27,7 +27,7 @@
 					<div class="col-lg-8">
 						<article class="blog-details">
 							<div class="post-img swiper m-1" >
-								<img src="../assets/img/{{ $solutions->banner }}" alt="" style="max-height:420px;">
+								<img src="../assets/img/solutions/banner/{{ $solutions->banner }}" alt="" style="max-height:420px;">
 							</div>
 
 							<div class="content">

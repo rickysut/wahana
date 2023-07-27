@@ -13,7 +13,7 @@
                 <div class="col" data-aos="zoom-in" data-aos-delay="200">
                     <div class="service-item d-flex flex-column h-100">
                         <div class="img">
-                            <img src="/assets/img/{{ $item->image }}" class="img-fluid-slider" alt="">
+                            <img src="/assets/img/solutions/{{ $item->image }}" class="img-fluid-slider" alt="">
                         </div>
                         <div class="details position-relative flex-grow-1">
                             <div class="icon">

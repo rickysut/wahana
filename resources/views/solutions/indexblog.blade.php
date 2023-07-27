@@ -3,7 +3,7 @@
                             @foreach ($solutions as $item)
                                 <div class="col">
                                     <div class="card h-100 border-0 shadow">
-                                        <img src="/assets/img/{{ $item->image }}" class="card-img-top-sol" alt="...">
+                                        <img src="/assets/img/solutions/{{ $item->image }}" class="card-img-top-sol" alt="...">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <h5 class="card-title">
