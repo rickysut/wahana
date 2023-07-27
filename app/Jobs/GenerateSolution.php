@@ -40,33 +40,42 @@ class GenerateSolution implements ShouldQueue
     {
         Log::info('GenerateSolution');
         //server
-        $destinationFile = '/var/www/wahanatatar.com/sections/solutions.php';
-        $assetFolder = '/var/www/wahanatatar.com/assets/img/solutions/';
-        $solutionIndex = '/var/www/wahanatatar.com/solutions/indexblog.php';
-        $singlePath = '/var/www/wahanatatar.com/solutions/';
-        $bannerPath = '/var/www/wahanatatar.com/assets/img/solutions/banner/';
+        // $destinationFile = '/var/www/wahanatatar.com/sections/solutions.php';
+        // $assetFolder = '/var/www/wahanatatar.com/assets/img/solutions/';
+        // $solutionIndex = '/var/www/wahanatatar.com/solutions/indexblog.php';
+        // $singlePath = '/var/www/wahanatatar.com/solutions/';
+        // $bannerPath = '/var/www/wahanatatar.com/assets/img/solutions/banner/';
+        // $sidebarPage = '/var/www/wahanatatar.com/solutions/sidebar.php';
         //local
-        // $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/sections/solutions.php';
-        // $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/';
-        // $solutionIndex = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/indexblog.php';
-        // $singlePath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/';
-        // $bannerPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/banner/';
+        $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/sections/solutions.php';
+        $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/';
+        $solutionIndex = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/indexblog.php';
+        $singlePath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/';
+        $bannerPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/banner/';
+        $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/sidebar.php';
 
         $solutions = Solution::all();
         
         //make: sections/solutions.php
         $html = View::make('sections.solutions')->with('solutions', $solutions)->render();
         $index = View::make('solutions.indexblog')->with('solutions', $solutions)->render();
+        $sidebar = View::make('solutions.sidebar')->with('solutions', $solutions)->render();
         
         // Log::info($html);
         Storage::put('sections/solutions.php', $html);
         Storage::put('sections/indexblog.php', $index);
+        Storage::put('solutions/sidebar.php', $sidebar);
+
 
         if (File::exists($destinationFile)) {
             File::delete($destinationFile);
         }
         if (File::exists($solutionIndex)) {
             File::delete($solutionIndex);
+        }
+
+        if (File::exists($sidebarPage)) {
+            File::delete($sidebarPage);
         }
         $fname = Storage::path('sections/solutions.php');
         if (copy($fname, $destinationFile)) {
@@ -78,6 +87,13 @@ class GenerateSolution implements ShouldQueue
         $fname = Storage::path('sections/indexblog.php');
         if (copy($fname, $solutionIndex)) {
             Log::info("File " . $solutionIndex ." copy successfully.");
+        } else {
+            Log::info("Failed to copy solutions/indexblog.php.");
+        }
+
+        $fname = Storage::path('solutions/sidebar.php');
+        if (copy($fname, $sidebarPage)) {
+            Log::info("File " . $sidebarPage ." copy successfully.");
         } else {
             Log::info("Failed to copy solutions/indexblog.php.");
         }

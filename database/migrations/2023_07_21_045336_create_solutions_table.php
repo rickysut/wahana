@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('slogan')->nullable();
             $table->string('banner')->nullable();
             $table->text('detail')->nullable();
+            $table->tinyInteger('is_show')->default(1);
             $table->timestamps();
         });
     }
