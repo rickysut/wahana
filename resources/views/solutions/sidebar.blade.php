@@ -9,7 +9,7 @@
                     <div class="post-item">
                         <img src="/assets/img/solutions/{{ $item->image }}" alt="" style="height: 70px; width: 70px">
                         <div>
-                            <h4><a href="/solutions/solutions-single.php">{{ $item->title }}</a></h4>
+                            <h4><a href="/solutions/{{ \Str::slug($item->title) }}.php">{{ $item->title }}</a></h4>
                         </div>
                     </div>
                 @endforeach
