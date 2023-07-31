@@ -46,13 +46,15 @@ class GenerateSolution implements ShouldQueue
         $singlePath = '/var/www/wahanatatar.com/solutions/';
         $bannerPath = '/var/www/wahanatatar.com/assets/img/solutions/banner/';
         $sidebarPage = '/var/www/wahanatatar.com/solutions/sidebar.php';
+        $dataPage = '/var/www/wahanatatar.com/config/datapage.php';
         //local
-        // $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/sections/solutions.php';
-        // $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/';
-        // $solutionIndex = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/indexblog.php';
-        // $singlePath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/';
-        // $bannerPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/banner/';
-        // $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/sidebar.php';
+        $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/sections/solutions.php';
+        $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/';
+        $solutionIndex = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/indexblog.php';
+        $singlePath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/';
+        $bannerPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/banner/';
+        $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/sidebar.php';
+        $dataPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/config/datapage.php';
 
         $solutions = Solution::all();
         
@@ -60,11 +62,13 @@ class GenerateSolution implements ShouldQueue
         $html = View::make('sections.solutions')->with('solutions', $solutions)->render();
         $index = View::make('solutions.indexblog')->with('solutions', $solutions)->render();
         $sidebar = View::make('solutions.sidebar')->with('solutions', $solutions)->render();
-        
+        $datapage = View::make('config.datapage')->with('solutions', $solutions)->render();
+
         // Log::info($html);
         Storage::put('sections/solutions.php', $html);
         Storage::put('sections/indexblog.php', $index);
         Storage::put('solutions/sidebar.php', $sidebar);
+        Storage::put('config/datapage.php', $datapage);
 
 
         if (File::exists($destinationFile)) {
@@ -77,6 +81,12 @@ class GenerateSolution implements ShouldQueue
         if (File::exists($sidebarPage)) {
             File::delete($sidebarPage);
         }
+
+        if (File::exists($dataPage)) {
+            File::delete($dataPage);
+        }
+
+
         $fname = Storage::path('sections/solutions.php');
         if (copy($fname, $destinationFile)) {
             Log::info("File " . $fname ." copy successfully.");
@@ -96,6 +106,13 @@ class GenerateSolution implements ShouldQueue
             Log::info("File " . $sidebarPage ." copy successfully.");
         } else {
             Log::info("Failed to copy solutions/indexblog.php.");
+        }
+
+        $fname = Storage::path('config/datapage.php');
+        if (copy($fname, $dataPage)) {
+            Log::info("File " . $dataPage ." copy successfully.");
+        } else {
+            Log::info("Failed to copy config/datapage.php.");
         }
 
         foreach($solutions as $item){
