@@ -36,7 +36,7 @@
 							</div>
 						</article>
 					</div>
-					@php echo '<?php include "../solutions/sidebar.php"; ?>' @endphp
+					@php echo '<?php include "sidebar.php"; ?>' @endphp
 
 				</div>
 

@@ -48,13 +48,13 @@ class GenerateSolution implements ShouldQueue
         $sidebarPage = '/var/www/wahanatatar.com/solutions/sidebar.php';
         $dataPage = '/var/www/wahanatatar.com/config/datapage.php';
         //local
-        $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/sections/solutions.php';
-        $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/';
-        $solutionIndex = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/indexblog.php';
-        $singlePath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/';
-        $bannerPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/banner/';
-        $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/sidebar.php';
-        $dataPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/config/datapage.php';
+        // $destinationFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/sections/solutions.php';
+        // $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/';
+        // $solutionIndex = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/indexblog.php';
+        // $singlePath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/';
+        // $bannerPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/solutions/banner/';
+        // $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/solutions/sidebar.php';
+        // $dataPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/config/datapage.php';
 
         $solutions = Solution::all();
         

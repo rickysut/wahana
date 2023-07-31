@@ -4,7 +4,7 @@
     echo "\$dataPage = array(". "\n"
 @endphp
     @foreach ($solutions as $item)
-    @php echo "'". \Str::slug($item->title) ."' => '". \Str::slug($item->title) .".php',". "\n" @endphp
+    @php echo "'". \Str::slug($item->title) ."' => '". \Str::slug($item->title) ."',". "\n" @endphp
     @endforeach
 @php echo "
 );"
