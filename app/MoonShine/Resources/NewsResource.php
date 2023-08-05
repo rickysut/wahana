@@ -8,11 +8,19 @@ use App\Models\News;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
-use MoonShine\Fields\Date;
-use MoonShine\Fields\Number;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Image;
-use MoonShine\Fields\Textarea;
+use Illuminate\Http\UploadedFile;
+use MoonShine\Decorations\Block;
+use MoonShine\Decorations\Heading;
+use MoonShine\Decorations\Flex;
+use MoonShine\Fields\TinyMce;
+use MoonShine\Decorations\Grid;
+use MoonShine\Decorations\Column;
+use Illuminate\Support\Facades\Log;
+use MoonShine\Fields\BelongsTo;
+use MoonShine\Fields\SwitchBoolean;
+use App\Jobs\GenerateNews;
 
 class NewsResource extends Resource
 {
@@ -38,19 +46,10 @@ class NewsResource extends Resource
 
     public static array $activeActions = ['show','create','edit','delete'];
 
-    // protected string $itemsView = 'vendor.moonshine.crud.shared.table_karyawan';    
-    // protected string $formView = 'vendor.moonshine.crud.shared.form_karyawan';
-    // protected string $detailView = 'crud.detail-card-karyawan';
-
+    
     public static int $itemsPerPage = 10; // Number of items per page
 
-    // public static array $with = ['attendance'];
-
-    // public function query(): Builder
-    // {
-    //     return parent::query()
-    //         ->withTrashed();
-    // }
+    
 
     public function trStyles(Model $item, int $index): string
     {
@@ -61,36 +60,52 @@ class NewsResource extends Resource
         return parent::trStyles($item, $index);
     }
 
+
 	public function fields(): array
 	{
 		return [
-		    ID::make()->sortable()->hideOnIndex(),
-            Text::make('Title', 'title'),
-            Date::make('Date', 'event_date')->withTime(),
-            Textarea::make('Description',  'description')->hideOnIndex(),
-            Text::make('Exerpt', 'exerpt')->hideOnIndex(),
-            Text::make('Place Name', 'place'),
-            Text::make('Full address', 'location')->hideOnIndex(),
-            Number::make('Available Seat', 'available_seat')->hideOnIndex(),
-            Text::make('Speaker', 'speaker'),
-            Image::make('Banner Image', 'big_image')
-            ->hideOnIndex()
-            ->dir('/news') // The directory where the files will be stored in storage (by default /)
-            ->disk('public') // Filesystems disk
-            ->allowedExtensions(['jpg', 'gif', 'png']), // Allowable extensions,
-            Image::make('Title Image', 'small_image')
-            ->hideOnIndex()
-            ->dir('/news') // The directory where the files will be stored in storage (by default /)
-            ->disk('public') // Filesystems disk
-            ->allowedExtensions(['jpg', 'gif', 'png']), // Allowable extensions,
-            
-            
+		    ID::make()->sortable()->hideOnCreate()->hideOnIndex()->hideOnUpdate()->hideOnDetail(),
+
+            Grid::make([
+                Column::make([
+                    Block::make('Index Information', [
+                        SwitchBoolean::make('Show at index', 'is_show')->default(true)->hideOnIndex(),  
+                        Flex::make([
+                            Text::make('Title', 'title'),
+                            Text::make('Sub Title', 'subtitle'),
+                        ])
+                            ->justifyAlign('start') // Based on tailwind classes justify-[param]
+                            ->itemsAlign('center'), // Based on tailwind classes items-[param]
+                        Flex::make([
+                            Image::make('Front Image', 'front_image')
+                                ->hint('Front Image'),
+                            
+                        ])
+                            ->justifyAlign('start') // Based on tailwind classes justify-[param]
+                            ->itemsAlign('center'), // Based on tailwind classes items-[param]
+                    ]),
+                ]),
+
+                Column::make([
+                    Block::make('Detail Information', [
+                        Image::make('Slider Image', 'slider')
+                                ->hint('Slider image, multiple support')
+                                ->multiple(),
+                        TinyMce::make('Detail', 'detail')->hideOnIndex(),
+                        BelongsTo::make('Created By', 'user', 'name')->hideOnCreate()->hideOnForm()->hideOnUpdate(),
+                            
+                    ]),
+                ]),
+            ]),
         ];
 	}
 
 	public function rules(Model $item): array
 	{
-	    return [];
+	    return [
+            'image' => 'max:2048',
+            'slider' => 'max:2048',
+        ];
     }
 
     public function search(): array
@@ -109,4 +124,52 @@ class NewsResource extends Resource
             FiltersAction::make(trans('moonshine::ui.filters')),
         ];
     }
+
+    protected function beforeCreating(Model $item)
+    {
+        $item->user_id = auth()->user()->id;
+    }
+
+    
+    
+    protected function afterCreated(Model $item)
+    {
+        // Event after adding a record
+        $job = new GenerateNews();
+        $job->dispatch();
+    }
+    
+    protected function beforeUpdating(Model $item)
+    {
+        // Event before record update
+    }
+    
+    protected function afterUpdated(Model $item)
+    {
+        // Event after record update
+        $job = new GenerateNews();
+        $job->dispatch();
+    }
+    
+    protected function beforeDeleting(Model $item)
+    {
+        // Event before record deletion
+    }
+    
+    protected function afterDeleted(Model $item)
+    {
+        // Event after record deletion
+        $job = new GenerateNews();
+        $job->dispatch();
+    }
+    
+    protected function beforeMassDeleting(array $ids)
+    {
+        // Event before mass deletion of records
+    }
+    
+    protected function afterMassDeleted(array $ids)
+    {
+        // Event after mass deletion of records
+    } 
 }

@@ -15,16 +15,13 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id');
             $table->string('title');
-            $table->dateTime('event_date');
-            $table->text('description')->nullable();
-            $table->string('place')->nullable();
-            $table->string('location')->nullable();
-            $table->integer('available_seat')->nullable();
-            $table->string('speaker')->nullable();
-            $table->string('big_image')->nullable();
-            $table->string('small_image')->nullable();
-            $table->string('exerpt')->nullable();
+            $table->string('subtitle');
+            $table->string('front_image')->nullable();
+            $table->json('slider')->nullable();   
+            $table->text('detail')->nullable();
+            $table->tinyInteger('is_show')->default(1);
             $table->timestamps();
         });
     }
