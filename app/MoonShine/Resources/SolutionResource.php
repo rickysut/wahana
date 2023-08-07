@@ -78,6 +78,11 @@ class SolutionResource extends Resource
                             ->justifyAlign('start') // Based on tailwind classes justify-[param]
                             ->itemsAlign('center'), // Based on tailwind classes items-[param]
                         Flex::make([
+                            Text::make('Footer', 'footer'),
+                        ])
+                            ->justifyAlign('start') // Based on tailwind classes justify-[param]
+                            ->itemsAlign('center'), // Based on tailwind classes items-[param]
+                        Flex::make([
                             Image::make('Image', 'image')
                                 ->hint('Background Image')
                                 // ->customName(fn(UploadedFile $file) => $file->storeAs('solutions', $file->getClientOriginalName(), 'local'), )

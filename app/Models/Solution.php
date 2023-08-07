@@ -18,6 +18,7 @@ class Solution extends Model
         'icon',
         'slogan',
         'banner',
+        'footer',
         'detail',
         'is_show',
     ];

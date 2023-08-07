@@ -44,23 +44,12 @@
 		</section>
 		<!-- End Portfolio Details Section -->
 
-		<section>
-			<div class="container">
-				<div class="row justify-content-center text-center" data-aos="zoom-in">
-					<h4>Learning Platform Supported by :</h4>
-					<div class="text-center mt-3">
-						<img src="/assets/img/dialogedu.jpg" style="width: 150px; height: 150px">
-					</div>
-					<h5>Authorized Partner of DialogEDU™ - USA</h5>
-				</div>
-			</div>
-		</section>
 
 		<!-- call to action -->
 		<section>
 			<div class="container">
 				<div class="row justify-content-center text-center" data-aos="zoom-in">
-					<h4>Need to implement your Learning Platform?</h4>
+					<h4>{{ $solutions->footer }}</h4>
 					<span class="fs-6">Feel free to consult with us!</span>
 					<div class="text-center mt-3">
 						<button class="btn btn-lg btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us Now</button>

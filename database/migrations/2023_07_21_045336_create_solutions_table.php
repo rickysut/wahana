@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('icon')->nullable();
             $table->string('slogan')->nullable();
             $table->string('banner')->nullable();
+            $table->string('footer')->nullable();
             $table->text('detail')->nullable();
             $table->tinyInteger('is_show')->default(1);
             $table->timestamps();
