@@ -3,7 +3,7 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Client;
+use App\Models\Media;
 
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
@@ -12,15 +12,14 @@ use MoonShine\Fields\Text;
 use MoonShine\Fields\File;
 use MoonShine\Fields\Image;
 use Illuminate\Http\UploadedFile;
-use App\Jobs\MoveClient;
+use App\Jobs\MoveMedia;
 use Illuminate\Support\Facades\Storage; 
 use Illuminate\Support\Facades\Log;
+use MoonShine\ItemActions\ItemAction;
 
-
-class ClientResource extends Resource
+class MediaResource extends Resource
 {
-	public static string $model = Client::class;
-
+	public static string $model = Media::class;
 
 	public string $titleField = 'name';
 
@@ -30,12 +29,12 @@ class ClientResource extends Resource
 
     public function title(): string
     {
-        return trans('moonshine::ui.resource.client');
+        return trans('moonshine::ui.resource.media');
     }
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.client');
+        return trans('moonshine::ui.subtitle.media');
     }
 
     public static bool $withPolicy = true;
@@ -56,14 +55,20 @@ class ClientResource extends Resource
         return parent::trStyles($item, $index);
     }
 
+
 	public function fields(): array
 	{
-        // $noclient = Client::count('id')+1;
 		return [
 		    ID::make()->sortable()->hideOnIndex()->hideOnCreate()->hideOnUpdate()->hideOnDetail(),
-            Text::make('Client Name', 'name'),
+            Text::make('Media Name', 'name'),
             Image::make('Image', 'image')
-            ->customName(fn(UploadedFile $file) => $file->storeAs('client', $file->getClientOriginalName(), 'local'), ), 
+            ->showOnIndex()
+            ->hideOnCreate()
+            ->hideOnUpdate()
+            ->customName(fn(UploadedFile $file) => $file->storeAs('media', $file->getClientOriginalName(), 'local'), ), 
+            
+            File::make('Link', 'image')
+            ->customName(fn(UploadedFile $file) => $file->storeAs('media', $file->getClientOriginalName(), 'local'), ), 
             
         ];
 	}
@@ -90,6 +95,7 @@ class ClientResource extends Resource
         ];
     }
 
+    
     protected function beforeCreating(Model $item)
     {
         // Event before adding an entry
@@ -98,7 +104,7 @@ class ClientResource extends Resource
     protected function afterCreated(Model $item)
     {
         // Event after adding a record
-        $job = new MoveClient();
+        $job = new MoveMedia();
         $job->dispatch();
     }
     
@@ -110,7 +116,7 @@ class ClientResource extends Resource
     protected function afterUpdated(Model $item)
     {
         // Event after record update
-        $job = new MoveClient();    
+        $job = new MoveMedia();    
         $job->dispatch();
     }
     
@@ -126,7 +132,7 @@ class ClientResource extends Resource
     protected function afterDeleted(Model $item)
     {
         // Event after record deletion
-        $job = new MoveClient();
+        $job = new MoveMedia();
         $job->dispatch();
     }
     

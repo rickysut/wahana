@@ -13,6 +13,7 @@ use App\MoonShine\Resources\NewsResource;
 use App\MoonShine\Resources\ClientResource;
 use App\MoonShine\Resources\SolutionResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
+use App\MoonShine\Resources\MediaResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -34,7 +35,10 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->translatable()
                     ->icon('heroicons.outline.users'),
                     
-
+                MenuItem::make('moonshine::ui.resource.media', new MediaResource())
+                    ->translatable()
+                    ->icon('heroicons.outline.folder-open'),
+                    
 
                 MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())
                     ->translatable()
