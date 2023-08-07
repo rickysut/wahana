@@ -3,28 +3,26 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\News;
-
+use App\Models\Event;
+use DateTime;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
+use MoonShine\Decorations\Block;
+use MoonShine\Decorations\Column;
+use MoonShine\Decorations\Flex;
+use MoonShine\Fields\Select;
+use MoonShine\Fields\SwitchBoolean;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Image;
-use Illuminate\Http\UploadedFile;
-use MoonShine\Decorations\Block;
-use MoonShine\Decorations\Heading;
-use MoonShine\Decorations\Flex;
 use MoonShine\Fields\TinyMce;
 use MoonShine\Decorations\Grid;
-use MoonShine\Decorations\Column;
-use Illuminate\Support\Facades\Log;
-use MoonShine\Fields\BelongsTo;
-use MoonShine\Fields\SwitchBoolean;
-use App\Jobs\GenerateNews;
+use MoonShine\Fields\Date;
+use App\Jobs\GenerateEvents;
 
-class NewsResource extends Resource
+class EventResource extends Resource
 {
-	public static string $model = News::class;
+	public static string $model = Event::class;
 
 	public string $titleField = 'title';
 
@@ -34,12 +32,12 @@ class NewsResource extends Resource
 
     public function title(): string
     {
-        return trans('moonshine::ui.resource.news');
+        return trans('moonshine::ui.resource.event');
     }
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.news');
+        return trans('moonshine::ui.subtitle.event');
     }
 
     public static bool $withPolicy = true;
@@ -60,7 +58,6 @@ class NewsResource extends Resource
         return parent::trStyles($item, $index);
     }
 
-
 	public function fields(): array
 	{
 		return [
@@ -68,21 +65,39 @@ class NewsResource extends Resource
 
             Grid::make([
                 Column::make([
-                    Block::make('Index Information', [
-                        SwitchBoolean::make('Show at index', 'is_show')->default(true)->hideOnIndex(),  
+                    Block::make('Headers', [
                         Flex::make([
-                            Text::make('Title', 'title'),
-                            Text::make('Sub Title', 'subtitle'),
+                            SwitchBoolean::make('Show at index', 'is_show')->default(true)->hideOnIndex(), 
+                            Select::make('Event / Workshop', 'kind') ->options([
+                                '1' => 'Event',
+                                '2' => 'Workshop'
+                            ]), 
+
                         ])
                             ->justifyAlign('start') // Based on tailwind classes justify-[param]
                             ->itemsAlign('center'), // Based on tailwind classes items-[param]
+                        
                         Flex::make([
-                            Image::make('Front Image', 'front_image')
-                                ->hint('Front Image'),
+                            Text::make('Title', 'title'),
+                            Text::make('Sub Title', 'subtitle')->hideOnIndex(),
                             
                         ])
                             ->justifyAlign('start') // Based on tailwind classes justify-[param]
                             ->itemsAlign('center'), // Based on tailwind classes items-[param]
+
+                        Flex::make([
+                            Image::make('Front Image', 'front_image'),
+                            Text::make('Event Information', 'information')->hideOnIndex(),
+                        ])
+                            ->justifyAlign('start') // Based on tailwind classes justify-[param]
+                            ->itemsAlign('center'), // Based on tailwind classes items-[param]
+
+                        Flex::make([
+                                Text::make('Location', 'location'),
+                                Date::make('Event date', 'event_date') ->format('d/m/Y')->withTime() ,
+                            ])
+                                ->justifyAlign('start') // Based on tailwind classes justify-[param]
+                                ->itemsAlign('center'), // Based on tailwind classes items-[param]
                     ]),
                 ]),
 
@@ -91,8 +106,15 @@ class NewsResource extends Resource
                         Image::make('Slider Image', 'slider')
                                 ->hint('Slider image, multiple support')
                                 ->multiple(),
+                        Flex::make([
+                            Text::make('Speaker', 'speaker_name'),
+                            Text::make('Spk. Title', 'speaker_title')->hideOnIndex(),
+                            Image::make('Speaker Picture', 'speaker_img')->hideOnIndex(),    
+
+                        ])->justifyAlign('start') // Based on tailwind classes justify-[param]
+                        ->itemsAlign('center'), // Based on tailwind classes items-[param]
+                        
                         TinyMce::make('Detail', 'detail')->hideOnIndex(),
-                        BelongsTo::make('Created By', 'user', 'name')->hideOnCreate()->hideOnForm()->hideOnUpdate(),
                             
                     ]),
                 ]),
@@ -127,7 +149,7 @@ class NewsResource extends Resource
 
     protected function beforeCreating(Model $item)
     {
-        $item->user_id = auth()->user()->id;
+        //
     }
 
     
@@ -135,7 +157,7 @@ class NewsResource extends Resource
     protected function afterCreated(Model $item)
     {
         // Event after adding a record
-        $job = new GenerateNews();
+        $job = new GenerateEvents();
         $job->dispatch();
     }
     
@@ -147,7 +169,7 @@ class NewsResource extends Resource
     protected function afterUpdated(Model $item)
     {
         // Event after record update
-        $job = new GenerateNews();
+        $job = new GenerateEvents();
         $job->dispatch();
     }
     
@@ -159,8 +181,8 @@ class NewsResource extends Resource
     protected function afterDeleted(Model $item)
     {
         // Event after record deletion
-        $job = new GenerateNews();
-        $job->dispatch();
+            $job = new GenerateEvents();
+            $job->dispatch();
     }
     
     protected function beforeMassDeleting(array $ids)

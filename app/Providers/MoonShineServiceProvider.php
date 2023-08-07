@@ -11,6 +11,7 @@ use MoonShine\Models\MoonshineUserRole;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\NewsResource;
 use App\MoonShine\Resources\ClientResource;
+use App\MoonShine\Resources\EventResource;
 use App\MoonShine\Resources\SolutionResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 use App\MoonShine\Resources\MediaResource;
@@ -30,6 +31,10 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('moonshine::ui.resource.news', new NewsResource())
                     ->translatable()
                     ->icon('heroicons.puzzle-piece'),
+                
+                MenuItem::make('moonshine::ui.resource.event', new EventResource())
+                    ->translatable()
+                    ->icon('heroicons.calendar-days'),
                 
                 MenuItem::make('moonshine::ui.resource.client', new ClientResource())
                     ->translatable()
