@@ -37,20 +37,24 @@ class GenerateNews implements ShouldQueue
     public function handle()
     {
         Log::info('GenerateNews');
-        //server
-        $indexFile = '/var/www/wahanatatar.com/news/index.php';
-        $assetFolder = '/var/www/wahanatatar.com/assets/img/news/';
-        $sliderPath = '/var/www/wahanatatar.com/assets/img/news/slider/';
-        $singlePath = '/var/www/wahanatatar.com/news/';
-        $sidebarPage = '/var/www/wahanatatar.com/news/sidebar.php';
-
-        //local
-        // $indexFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/news/index.php';
-        // $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/news/';
-        // $sliderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/news/slider/';
-        // $singlePath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/news/';
-        // $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/news/sidebar.php';
-
+        if (config('wahana.workplace') == 'server')
+        {
+            //server
+            $indexFile = '/var/www/wahanatatar.com/news/index.php';
+            $assetFolder = '/var/www/wahanatatar.com/assets/img/news/';
+            $sliderPath = '/var/www/wahanatatar.com/assets/img/news/slider/';
+            $singlePath = '/var/www/wahanatatar.com/news/';
+            $sidebarPage = '/var/www/wahanatatar.com/news/sidebar.php';
+        } else 
+        {
+            // local
+            $indexFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/news/index.php';
+            $assetFolder = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/news/';
+            $sliderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/img/news/slider/';
+            $singlePath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/news/';
+            $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/news/sidebar.php';
+        }
+        
         $news = News::where('is_show', 1)->get();
         $pages = $news->chunk(6);
 

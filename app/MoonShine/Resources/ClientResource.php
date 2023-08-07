@@ -13,6 +13,8 @@ use MoonShine\Fields\File;
 use MoonShine\Fields\Image;
 use Illuminate\Http\UploadedFile;
 use App\Jobs\MoveClient;
+use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Log;
 
 
 class ClientResource extends Resource
@@ -115,6 +117,10 @@ class ClientResource extends Resource
     protected function beforeDeleting(Model $item)
     {
         // Event before record deletion
+        // Log::debug($item->image);
+        // $fname = Storage::disk('local')->path($item->image);
+        // Log::debug($fname);
+        Storage::delete($item->image);
     }
     
     protected function afterDeleted(Model $item)

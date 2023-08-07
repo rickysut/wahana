@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\File;
 
 class MoveClient implements ShouldQueue
 {
@@ -34,16 +35,32 @@ class MoveClient implements ShouldQueue
     public function handle()
     {   
         $images =  Storage::files('client');
-        $destinationFolderPath = '/var/www/wahanatatar.com/assets/client/';
-        // $destinationFolderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/client/';
-        // natcasesort($images);
+        if (config('wahana.workplace') == 'server')
+        {
+            $destinationFolderPath = '/var/www/wahanatatar.com/assets/client/';
+        } else 
+        {
+            $destinationFolderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/client';
+        }
+        
+        if (File::exists($destinationFolderPath)) {
+            File::cleanDirectory($destinationFolderPath);
+        }
+
+        if (Storage::exists($destinationFolderPath)) {
+            // Delete all files within the folder
+            $files = Storage::allFiles($destinationFolderPath);
+            Log::debug($files);
+            Storage::delete($files);
+        }
+
         foreach ($images as $image) { 
             $fname = Storage::disk('local')->path($image);
             //Log::info($fname);
-            $destinationFilePath = $destinationFolderPath . basename($image);
+            $destinationFilePath = $destinationFolderPath . '/'. basename($image);
             //Log::info($destinationFilePath);
             if (copy($fname, $destinationFilePath)) {
-                Log::info("File " . $image ." moved successfully.");
+                Log::info("File " .  basename($image) ." moved successfully.");
             } else {
                 Log::info("Failed to move the file.");
             }
