@@ -141,7 +141,12 @@ class GenerateSolution implements ShouldQueue
             }
 
             $quote = Str::between($item->slogan, '"', '"');
-            $person = Str::after($item->slogan, $quote.'"');
+            if ($quote) {
+                $person = Str::after($item->slogan, $quote.'"');
+            } else {
+                $quote = '';
+                $person = '';
+            }
             
             $single = View::make('solutions.singlesolution')->with('solutions', $item)
             ->with('quote', $quote)

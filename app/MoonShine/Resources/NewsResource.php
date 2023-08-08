@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Log;
 use MoonShine\Fields\BelongsTo;
 use MoonShine\Fields\SwitchBoolean;
 use App\Jobs\GenerateNews;
+use Illuminate\Database\Eloquent\Builder;
+use MoonShine\ItemActions\ItemAction;
 
 class NewsResource extends Resource
 {
@@ -60,6 +62,11 @@ class NewsResource extends Resource
         return parent::trStyles($item, $index);
     }
 
+    public function query(): Builder
+    {
+        return parent::query()
+            ->withTrashed();
+    }
 
 	public function fields(): array
 	{
@@ -125,6 +132,21 @@ class NewsResource extends Resource
         ];
     }
 
+    public function itemActions(): array
+    {
+        return [
+            ItemAction::make('Restore', function (Model $item) {
+                $item->restore();
+            }, 'Retrieved')
+            ->canSee(fn(Model $item) => $item->trashed()),
+
+            ItemAction::make('Trash', function (Model $item) {
+                $item->forceDelete();
+            }, 'Move to trash')
+            ->canSee(fn(Model $item) => $item->trashed())
+        ];
+    }
+
     protected function beforeCreating(Model $item)
     {
         $item->user_id = auth()->user()->id;
@@ -154,6 +176,10 @@ class NewsResource extends Resource
     protected function beforeDeleting(Model $item)
     {
         // Event before record deletion
+        $item->update([
+            'front_image' => null,
+            'slider' => [],
+        ]);
     }
     
     protected function afterDeleted(Model $item)

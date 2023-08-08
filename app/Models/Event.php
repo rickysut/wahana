@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'events';
 
@@ -41,8 +43,16 @@ class Event extends Model
     // Function to get the 10 latest news articles
     public static function getLatestEvents()
     {
-        return self::orderBy('created_at', 'desc')
+        return self::orderBy('event_date', 'desc')
                    ->take(10)
+                   ->get();
+    }
+
+    public static function getLatestThree()
+    {
+        
+        return self::where('event_date', '>=', now())->orderBy('event_date', 'asc')
+                   ->take(3)
                    ->get();
     }
 }

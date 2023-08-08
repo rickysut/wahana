@@ -57,11 +57,24 @@ class GenerateEvents implements ShouldQueue
             $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/events/sidebar.php';
         }
         
-        $events = Event::where('is_show', 1)->get();
+        $look = Event::where('event_date', '>=', now())->orderBy('event_date', 'asc')->first();
+
+        $events = Event::where('is_show', 1)->where('deleted_at',null)->orderBy('event_date', 'asc')->get();
         $pages = $events->chunk(6);
 
+        $targetPage = null;
+        foreach ($pages as $pageIndex => $page) {
+            foreach ($page as $event) {
+                if ($event->id == $look->id) {
+                    $targetPage = $pageIndex + 1; // Page index is 0-based, page number is 1-based
+                    break 2; // Break out of both loops
+                }
+            }
+        }
+
+
         // index
-        $index = View::make('events.index')->with('pages', $pages)->render();
+        $index = View::make('events.index')->with('pages', $pages)->with('pageindex', $targetPage)->render();
         Storage::put('events/index.php', $index);
         if (File::exists($indexFile)) {
             File::delete($indexFile);

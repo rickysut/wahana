@@ -12,9 +12,11 @@
 	<section id="solutions" class="hero-static d-flex align-items-center">
 		<div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative" data-aos="zoom-out">
 			<h2>{{ $solutions->title }}</h2>
+			@if ($quote)
 			<p>
 				<span class="fst-italic">"{{ $quote }}"</span><br />{{ $person }}
 			</p>
+			@endif
 		</div>
 	</section>
 

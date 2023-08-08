@@ -19,6 +19,9 @@ use MoonShine\Fields\TinyMce;
 use MoonShine\Decorations\Grid;
 use MoonShine\Fields\Date;
 use App\Jobs\GenerateEvents;
+use App\Jobs\GenerateFooter;
+use Illuminate\Database\Eloquent\Builder;
+use MoonShine\ItemActions\ItemAction;
 
 class EventResource extends Resource
 {
@@ -56,6 +59,12 @@ class EventResource extends Resource
         }
 
         return parent::trStyles($item, $index);
+    }
+
+    public function query(): Builder
+    {
+        return parent::query()
+            ->withTrashed();
     }
 
 	public function fields(): array
@@ -126,6 +135,7 @@ class EventResource extends Resource
 	{
 	    return [
             'front_image' => 'max:2048',
+            'speaker_img' => 'max:2048',
             'slider' => 'max:2048',
         ];
     }
@@ -147,6 +157,21 @@ class EventResource extends Resource
         ];
     }
 
+    public function itemActions(): array
+    {
+        return [
+            ItemAction::make('Restore', function (Model $item) {
+                $item->restore();
+            }, 'Retrieved')
+            ->canSee(fn(Model $item) => $item->trashed()),
+
+            ItemAction::make('Trash', function (Model $item) {
+                $item->forceDelete();
+            }, 'Move to trash')
+            ->canSee(fn(Model $item) => $item->trashed())
+        ];
+    }
+
     protected function beforeCreating(Model $item)
     {
         //
@@ -159,6 +184,8 @@ class EventResource extends Resource
         // Event after adding a record
         $job = new GenerateEvents();
         $job->dispatch();
+        $job2 = new GenerateFooter();
+        $job2->dispatch();
     }
     
     protected function beforeUpdating(Model $item)
@@ -171,18 +198,27 @@ class EventResource extends Resource
         // Event after record update
         $job = new GenerateEvents();
         $job->dispatch();
+        $job2 = new GenerateFooter();
+        $job2->dispatch();
     }
     
     protected function beforeDeleting(Model $item)
     {
         // Event before record deletion
+        $item->update([
+            'front_image' => null,
+            'speaker_img' => null,
+            'slider' => [],
+        ]);
     }
     
     protected function afterDeleted(Model $item)
     {
         // Event after record deletion
-            $job = new GenerateEvents();
-            $job->dispatch();
+        $job = new GenerateEvents();
+        $job->dispatch();
+        $job2 = new GenerateFooter();
+        $job2->dispatch();
     }
     
     protected function beforeMassDeleting(array $ids)

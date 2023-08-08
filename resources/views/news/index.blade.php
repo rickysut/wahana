@@ -3,7 +3,11 @@
 
 @php echo '<?php include "../config/menu.php"; ?>'."\n" @endphp
 @php echo '<?php include "../partials/meta.php"; ?>'."\n" @endphp
-@php echo '<?php $page = $_GET[\'page\']; 
+@php echo '<?php 
+	$page = null;
+	if (isset($_GET[\'page\'])) {
+		$page = $_GET[\'page\']; 
+	}
 	if (!$page) $page = 1;
 ?>'."\n" 
 @endphp

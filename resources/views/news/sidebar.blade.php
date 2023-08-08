@@ -13,7 +13,7 @@
                     <img src="/assets/img/news/{{ $item->front_image }}" alt="" class="flex-shrink-0">
                     <div>
                         <h4><a href="/news/{{ \Str::slug($item->title) }}.php">{{ $item->title }}</a></h4>
-                        <time datetime="{{ $item->created_at->format('d-m-Y') }}">{{ $item->created_at->format('d-m-Y H:i:s') }}</time>
+                        <time datetime="{{ $item->created_at->format('d-m-Y') }}">{{ $item->created_at->format('M d, Y') }}</time>
                     </div>
                 </div><!-- End recent post item-->
 
