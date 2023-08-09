@@ -15,6 +15,7 @@ use App\MoonShine\Resources\EventResource;
 use App\MoonShine\Resources\SolutionResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 use App\MoonShine\Resources\MediaResource;
+use App\MoonShine\Resources\ContactResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -44,7 +45,10 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->translatable()
                     ->icon('heroicons.outline.folder-open'),
                     
-
+                MenuItem::make('moonshine::ui.resource.contact', new ContactResource())
+                    ->translatable()
+                    ->icon('heroicons.phone'),
+                    
                 MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())
                     ->translatable()
                     ->icon('users')

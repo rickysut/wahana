@@ -91,7 +91,8 @@ return [
         'solution' => 'Solutions',
         'detailsolution' => 'Detail Solution',
         'media' => 'Media',
-        'event' => 'Event & Workshop'
+        'event' => 'Event & Workshop',
+        'contact' => 'Contact',
     ],
     'subtitle' => [
         'system' => 'System',
@@ -131,5 +132,6 @@ return [
         'detailsolution' => 'Detail solution content',
         'media' => 'Media for support detail content',
         'event' => 'Event & Workshop list',
+        'contact' => 'Active contact',
     ]
 ];
