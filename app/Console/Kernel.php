@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\GenerateEvents;
 use App\Jobs\GenerateFooter;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -20,9 +21,9 @@ class Kernel extends ConsoleKernel
             function () {}
         );
 
-        // $schedule->job(new GenerateSolution)->everyMinute()->withoutOverlapping()->after(
-        //     function () {}
-        // );
+        $schedule->job(new GenerateEvents)->daily()->withoutOverlapping()->after(
+            function () {}
+        );
     }
 
     /**

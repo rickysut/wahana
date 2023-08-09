@@ -3,6 +3,7 @@
 
 @php echo '<?php include "../config/menu.php"; ?>' @endphp
 @php echo '<?php include "../partials/meta.php"; ?>' @endphp
+@php echo '<?php include "../config/phonenumber.php"; ?>' @endphp
 
 <body id="solutions">
 
@@ -54,7 +55,7 @@
 					<h4>{{ $solutions->footer }}</h4>
 					<span class="fs-6">Feel free to consult with us!</span>
 					<div class="text-center mt-3">
-						<button class="btn btn-lg btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us Now</button>
+						@php echo '<?php include "../partials/whatsapp-button.php"; ?>'."\n" @endphp 
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,7 @@
 
 @php echo '<?php include "../config/menu.php"; ?>'."\n" @endphp
 @php echo '<?php include "../partials/meta.php"; ?>'."\n" @endphp
+@php echo '<?php include "../config/phonenumber.php"; ?>'."\n" @endphp
 @php $carbonDate =  \Carbon\Carbon::parse($item->event_date); @endphp
 <body>
 

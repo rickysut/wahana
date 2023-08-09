@@ -41,10 +41,12 @@ class GenerateWhatsapp implements ShouldQueue
         {
             $waFile = '/var/www/wahanatatar.com/partials/whatsapp-button.php';
             $configfile = '/var/www/wahanatatar.com/config/phonenumber.php';
+            $bookFile = '/var/www/wahanatatar.com/partials/book-now-button.php';
         } else 
         {
             $waFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/partials/whatsapp-button.php';
             $configfile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/config/phonenumber.php';
+            $bookFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/partials/book-now-button.php';
         }
         
         $contact = Contact::where('active', 1)->first();
@@ -72,6 +74,18 @@ class GenerateWhatsapp implements ShouldQueue
                 Log::info("File " . $fname ." copy successfully.");
             } else {
                 Log::error("Failed to copy partials/whatsapp_button.php.");
+            }
+
+            $book = View::make('partials.booknow')->with('number', $wano)->render();
+            Storage::put('partials/book-now-button.php', $book);
+            if (File::exists($bookFile)) {
+                File::delete($bookFile);
+            }
+            $fname = Storage::path('partials/book-now-button.php');
+            if (copy($fname, $bookFile)) {
+                Log::info("File " . $fname ." copy successfully.");
+            } else {
+                Log::error("Failed to copy partials/book-now-button.php.");
             }
 
             $wano2 = '0' . substr($wano,2);
