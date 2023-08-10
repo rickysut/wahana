@@ -51,7 +51,7 @@ class Event extends Model
     public static function getLatestThree()
     {
         
-        return self::where('event_date', '>=', now())->orderBy('event_date', 'asc')
+        return self::where('event_date', '>', now()->addDay())->orderBy('event_date', 'asc')
                    ->take(3)
                    ->get();
     }
