@@ -6,25 +6,30 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use MoonShine\Models\MoonshineUser;
 
-class News extends Model
+class Event extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'news';
+    protected $table = 'events';
 
     protected $fillable = [
-        'user_id',
+        'kind',
         'title',
         'subtitle',
+        'information',
+        'speaker_name',
+        'speaker_title',
+        'speaker_img',
         'front_image',
+        'event_date',
+        'location',
         'slider',
         'detail',
         'is_show',
     ];
-    
+
     protected function slider(): Attribute
     {
         return Attribute::make(
@@ -33,16 +38,21 @@ class News extends Model
         );
     } 
 
-    public function user()
-    {
-        return $this->belongsTo(MoonshineUser::class, 'user_id', 'id');
-    }
+    
 
     // Function to get the 10 latest news articles
-    public static function getLatestNews()
+    public static function getLatestEvents()
     {
-        return self::orderBy('created_at', 'desc')
+        return self::orderBy('event_date', 'desc')
                    ->take(10)
+                   ->get();
+    }
+
+    public static function getLatestThree()
+    {
+        
+        return self::where('event_date', '>', now()->addDay())->orderBy('event_date', 'asc')
+                   ->take(3)
                    ->get();
     }
 }

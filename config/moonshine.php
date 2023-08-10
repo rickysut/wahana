@@ -44,7 +44,6 @@ return [
     ],
     'locales' => [
         'en',
-        'ru',
     ],
     'middlewares' => [],
     'tinymce' => [

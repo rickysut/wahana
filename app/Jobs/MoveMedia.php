@@ -10,10 +10,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\File;
 
-class MoveClient implements ShouldQueue
+class MoveMedia implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -33,20 +32,21 @@ class MoveClient implements ShouldQueue
      * @return void
      */
     public function handle()
-    {   
-        $images =  Storage::files('client');
+    {
+        $images =  Storage::files('media');
         if (config('wahana.workplace') == 'server')
         {
-            $destinationFolderPath = '/var/www/wahanatatar.com/assets/client/';
+            $destinationFolderPath = '/var/www/wahanatatar.com/storage/media';
         } else 
         {
-            $destinationFolderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/client';
+            $destinationFolderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/storage/media';
         }
         
         if (File::exists($destinationFolderPath)) {
             File::cleanDirectory($destinationFolderPath);
         }
 
+        
 
         foreach ($images as $image) { 
             $fname = Storage::disk('local')->path($image);

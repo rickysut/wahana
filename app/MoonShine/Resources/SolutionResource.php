@@ -17,6 +17,11 @@ use MoonShine\Decorations\Flex;
 use MoonShine\Fields\TinyMce;
 use MoonShine\Decorations\Grid;
 use MoonShine\Decorations\Column;
+use App\Jobs\GenerateSolution;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Facades\Log;
+use MoonShine\Fields\SwitchBoolean;
+use PhpParser\Node\Stmt\Switch_;
 
 class SolutionResource extends Resource
 {
@@ -61,9 +66,11 @@ class SolutionResource extends Resource
 		return [
             
 		    ID::make()->sortable()->hideOnCreate()->hideOnIndex()->hideOnUpdate()->hideOnDetail(),
+            
             Grid::make([
                 Column::make([
                     Block::make('Slider Information', [
+                        SwitchBoolean::make('Show at home', 'is_show')->default(true)->hideOnIndex(),  
                         Flex::make([
                             Text::make('Title', 'title'),
                             Text::make('Sub Title', 'subtitle'),
@@ -71,12 +78,17 @@ class SolutionResource extends Resource
                             ->justifyAlign('start') // Based on tailwind classes justify-[param]
                             ->itemsAlign('center'), // Based on tailwind classes items-[param]
                         Flex::make([
+                            Text::make('Footer', 'footer'),
+                        ])
+                            ->justifyAlign('start') // Based on tailwind classes justify-[param]
+                            ->itemsAlign('center'), // Based on tailwind classes items-[param]
+                        Flex::make([
                             Image::make('Image', 'image')
                                 ->hint('Background Image')
-                                ->customName(fn(UploadedFile $file) => $file->storeAs('solutions', $file->getClientOriginalName(), 'local'), )
+                                // ->customName(fn(UploadedFile $file) => $file->storeAs('solutions', $file->getClientOriginalName(), 'local'), )
                                 ,
                             Text::make('Icon', 'icon')
-                                ->hint('Ref. icon to Fontsowesome icon https://fontawesome.com/v5/search'),
+                                ->hint('Ref. icon to Bootstrap icon https://icons.getbootstrap.com/icons'),
                         ])
                             ->justifyAlign('start') // Based on tailwind classes justify-[param]
                             ->itemsAlign('center'), // Based on tailwind classes items-[param]
@@ -86,6 +98,10 @@ class SolutionResource extends Resource
                 Column::make([
                     Block::make('Detail Information', [
                         Text::make('Slogan', 'slogan')->hideOnIndex(),
+                        Image::make('Banner Image', 'banner')
+                                ->hint('Banner image')
+                                // ->customName(fn(UploadedFile $file) => $file->storeAs('solutions/banner', $file->getClientOriginalName(), 'local'), ),
+                                ,
                         TinyMce::make('Detail', 'detail')->hideOnIndex()
 
                     ]),
@@ -96,7 +112,10 @@ class SolutionResource extends Resource
 
 	public function rules(Model $item): array
 	{
-	    return [];
+	    return [
+            'image' => 'max:2048',
+            'banner' => 'max:2048',
+        ];
     }
 
     public function search(): array
@@ -115,4 +134,50 @@ class SolutionResource extends Resource
             FiltersAction::make(trans('moonshine::ui.filters')),
         ];
     }
+
+    protected function beforeCreating(Model $item)
+    {
+        // Event before adding an entry
+    }
+    
+    protected function afterCreated(Model $item)
+    {
+        // Event after adding a record
+        $job = new GenerateSolution();
+        $job->dispatch();
+    }
+    
+    protected function beforeUpdating(Model $item)
+    {
+        // Event before record update
+    }
+    
+    protected function afterUpdated(Model $item)
+    {
+        // Event after record update
+        $job = new GenerateSolution();
+        $job->dispatch();
+    }
+    
+    protected function beforeDeleting(Model $item)
+    {
+        // Event before record deletion
+    }
+    
+    protected function afterDeleted(Model $item)
+    {
+        // Event after record deletion
+        $job = new GenerateSolution();
+        $job->dispatch();
+    }
+    
+    protected function beforeMassDeleting(array $ids)
+    {
+        // Event before mass deletion of records
+    }
+    
+    protected function afterMassDeleted(array $ids)
+    {
+        // Event after mass deletion of records
+    } 
 }

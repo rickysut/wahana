@@ -2,9 +2,10 @@
 
 namespace App\Console;
 
+use App\Jobs\GenerateEvents;
+use App\Jobs\GenerateFooter;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Jobs\MoveClient;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,7 +17,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new MoveClient)->everyMinute()->withoutOverlapping()->after(
+        $schedule->job(new GenerateFooter)->daily()->withoutOverlapping()->after(
+            function () {}
+        );
+
+        $schedule->job(new GenerateEvents)->daily()->withoutOverlapping()->after(
             function () {}
         );
     }

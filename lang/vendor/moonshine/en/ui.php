@@ -90,6 +90,9 @@ return [
         'client' => 'Clients',
         'solution' => 'Solutions',
         'detailsolution' => 'Detail Solution',
+        'media' => 'Media',
+        'event' => 'Event & Workshop',
+        'contact' => 'Contact',
     ],
     'subtitle' => [
         'system' => 'System',
@@ -127,5 +130,8 @@ return [
         'client' => 'Client List',
         'solution' => 'Solution List',
         'detailsolution' => 'Detail solution content',
+        'media' => 'Media for support detail content',
+        'event' => 'Event & Workshop list',
+        'contact' => 'Active contact',
     ]
 ];

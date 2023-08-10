@@ -17,6 +17,9 @@ class Solution extends Model
         'image',
         'icon',
         'slogan',
+        'banner',
+        'footer',
         'detail',
+        'is_show',
     ];
 }

@@ -3,24 +3,18 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Client;
-
+use App\Models\Contact;
+use Illuminate\Support\Facades\Log;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
+use MoonShine\Fields\SwitchBoolean;
 use MoonShine\Fields\Text;
-use MoonShine\Fields\File;
-use MoonShine\Fields\Image;
-use Illuminate\Http\UploadedFile;
-use App\Jobs\MoveClient;
-use Illuminate\Support\Facades\Storage; 
-use Illuminate\Support\Facades\Log;
+use App\Jobs\GenerateWhatsapp;
 
-
-class ClientResource extends Resource
+class ContactResource extends Resource
 {
-	public static string $model = Client::class;
-
+	public static string $model = Contact::class;
 
 	public string $titleField = 'name';
 
@@ -30,12 +24,12 @@ class ClientResource extends Resource
 
     public function title(): string
     {
-        return trans('moonshine::ui.resource.client');
+        return trans('moonshine::ui.resource.contact');
     }
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.client');
+        return trans('moonshine::ui.subtitle.contact');
     }
 
     public static bool $withPolicy = true;
@@ -58,13 +52,11 @@ class ClientResource extends Resource
 
 	public function fields(): array
 	{
-        // $noclient = Client::count('id')+1;
 		return [
 		    ID::make()->sortable()->hideOnIndex()->hideOnCreate()->hideOnUpdate()->hideOnDetail(),
-            Text::make('Client Name', 'name'),
-            Image::make('Image', 'image')
-            ->customName(fn(UploadedFile $file) => $file->storeAs('client', $file->getClientOriginalName(), 'local'), ), 
-            
+            SwitchBoolean::make('Active', 'active')->readonly(),
+            Text::make('Name', 'name'),
+            Text::make('Number', 'number'),
         ];
 	}
 
@@ -75,7 +67,7 @@ class ClientResource extends Resource
 
     public function search(): array
     {
-        return ['id', 'name'];
+        return ['name', 'number'];
     }
 
     public function filters(): array
@@ -93,40 +85,48 @@ class ClientResource extends Resource
     protected function beforeCreating(Model $item)
     {
         // Event before adding an entry
+        
     }
     
     protected function afterCreated(Model $item)
     {
         // Event after adding a record
-        $job = new MoveClient();
+        if ($item->active == 1){
+            Contact::where('id', '!=' , $item->id)->update(['active' => 0]);
+        }
+
+        $job = new GenerateWhatsapp();
         $job->dispatch();
     }
     
     protected function beforeUpdating(Model $item)
     {
         // Event before record update
+        
     }
     
     protected function afterUpdated(Model $item)
     {
         // Event after record update
-        $job = new MoveClient();    
+        
+        // Log::debug($item->active);
+        if ($item->active == 1){
+            Contact::where('id', '!=' , $item->id)->update(['active' => 0]);
+        }
+        $job = new GenerateWhatsapp();    
         $job->dispatch();
     }
     
     protected function beforeDeleting(Model $item)
     {
         // Event before record deletion
-        // Log::debug($item->image);
-        // $fname = Storage::disk('local')->path($item->image);
-        // Log::debug($fname);
-        Storage::delete($item->image);
+        
     }
     
     protected function afterDeleted(Model $item)
     {
         // Event after record deletion
-        $job = new MoveClient();
+        $job = new GenerateWhatsapp();    
         $job->dispatch();
     }
     

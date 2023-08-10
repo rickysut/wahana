@@ -11,8 +11,11 @@ use MoonShine\Models\MoonshineUserRole;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\NewsResource;
 use App\MoonShine\Resources\ClientResource;
+use App\MoonShine\Resources\EventResource;
 use App\MoonShine\Resources\SolutionResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
+use App\MoonShine\Resources\MediaResource;
+use App\MoonShine\Resources\ContactResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -30,12 +33,22 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->translatable()
                     ->icon('heroicons.puzzle-piece'),
                 
+                MenuItem::make('moonshine::ui.resource.event', new EventResource())
+                    ->translatable()
+                    ->icon('heroicons.calendar-days'),
+                
                 MenuItem::make('moonshine::ui.resource.client', new ClientResource())
                     ->translatable()
                     ->icon('heroicons.outline.users'),
                     
-
-
+                MenuItem::make('moonshine::ui.resource.media', new MediaResource())
+                    ->translatable()
+                    ->icon('heroicons.outline.folder-open'),
+                    
+                MenuItem::make('moonshine::ui.resource.contact', new ContactResource())
+                    ->translatable()
+                    ->icon('heroicons.phone'),
+                    
                 MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())
                     ->translatable()
                     ->icon('users')

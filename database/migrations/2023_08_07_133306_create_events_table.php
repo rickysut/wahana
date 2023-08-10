@@ -13,18 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('solutions', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->tinyInteger('kind');
             $table->string('title');
             $table->string('subtitle');
-            $table->string('image')->nullable();
-            $table->string('icon')->nullable();
-            $table->string('slogan')->nullable();
-            $table->string('banner')->nullable();
-            $table->string('footer')->nullable();
+            $table->string('information')->nullable();
+            $table->string('speaker_name')->nullable();
+            $table->string('speaker_title')->nullable();
+            $table->string('speaker_img')->nullable();
+            $table->string('front_image')->nullable();
+            $table->timestamp('event_date');
+            $table->string('location')->nullable();
+            $table->json('slider')->nullable();   
             $table->text('detail')->nullable();
             $table->tinyInteger('is_show')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -35,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('solutions');
+        Schema::dropIfExists('events');
     }
 };
