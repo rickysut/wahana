@@ -41,7 +41,7 @@
                 </span>
                 <p class="card-text">{{ $item->subtitle }}</p>
                 <small>
-                    @if ($carbonDate > \Carbon\Carbon::now())
+                    @if ($carbonDate > \Carbon\Carbon::now()->addDay() )
                         @php echo '<?php include "../partials/book-now-button.php"; ?>'."\n" @endphp    
                     @endif
                     

@@ -108,7 +108,7 @@
 								</ul>
 								<!-- <hr> -->
 								<div class="d-grid mt-5">
-									@if ($carbonDate > \Carbon\Carbon::now())
+									@if ($carbonDate > \Carbon\Carbon::now()->addDay())
 										@php echo '<?php include "../partials/book-now-button.php"; ?>'."\n" @endphp    
 									@endif
 								</div>
