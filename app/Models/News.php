@@ -41,7 +41,7 @@ class News extends Model
     // Function to get the 10 latest news articles
     public static function getLatestNews()
     {
-        return self::orderBy('created_at', 'desc')
+        return self::orderBy('updated_at', 'desc')
                    ->take(10)
                    ->get();
     }

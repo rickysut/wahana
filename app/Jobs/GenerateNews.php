@@ -55,7 +55,7 @@ class GenerateNews implements ShouldQueue
             $sidebarPage = '/Users/rickysutanto/Development/Laravel/wahanatatar3/news/sidebar.php';
         }
         
-        $news = News::where('is_show', 1)->where('deleted_at',null)->orderBy('created_at', 'desc')->get();
+        $news = News::where('is_show', 1)->where('deleted_at',null)->orderBy('updated_at', 'desc')->get();
         $pages = $news->chunk(6);
 
 
