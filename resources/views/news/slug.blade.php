@@ -33,7 +33,7 @@
 							<div class="meta-top">
 								<ul>
 									<li class="d-flex align-items-center"><i class="bi bi-person"></i>{{ $item->user->name }}</li>
-									<li class="d-flex align-items-center"><i class="bi bi-clock"></i><span>{{ $item->created_at->format('M d, Y') }}</span></li>
+									<li class="d-flex align-items-center"><i class="bi bi-clock"></i><span>{{ $item->updated_at->format('M d, Y') }}</span></li>
 								</ul>
 							</div><!-- End meta top -->
 
