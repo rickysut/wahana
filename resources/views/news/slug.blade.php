@@ -21,7 +21,7 @@
 								<div class="swiper-wrapper align-items-center" style="max-height: 450px;">
                                     @foreach ($item->slider as $img)
 									<div class="swiper-slide">
-										<img src="/assets/img/news/slider/{{ $img }}" alt="">
+										<img src="/assets/img/news/slider/{{ $img }}" alt="" style="height: auto; width: 100%; object-fit: cover; object-position: center;">
 									</div>
 									@endforeach
 								</div>
