@@ -63,14 +63,19 @@ class GenerateEvents implements ShouldQueue
         $pages = $events->chunk(6);
 
         $targetPage = null;
-        foreach ($pages as $pageIndex => $page) {
-            foreach ($page as $event) {
-                if ($event->id == $look->id) {
-                    $targetPage = $pageIndex + 1; // Page index is 0-based, page number is 1-based
-                    break 2; // Break out of both loops
+        if ($look){
+            foreach ($pages as $pageIndex => $page) {
+                foreach ($page as $event) {
+                    if ($event->id)
+                    {
+                        if ($event->id == $look->id) {
+                            $targetPage = $pageIndex + 1; // Page index is 0-based, page number is 1-based
+                            break 2; // Break out of both loops
+                        }
+                    }
                 }
             }
-        }
+        } else $targetPage = 1;
 
 
         // index
