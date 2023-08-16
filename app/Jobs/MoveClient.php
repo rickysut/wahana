@@ -37,7 +37,7 @@ class MoveClient implements ShouldQueue
         $images =  Storage::files('client');
         if (config('wahana.workplace') == 'server')
         {
-            $destinationFolderPath = '/var/www/wahanatatar.com/assets/client/';
+            $destinationFolderPath = '/var/www/wahanatatar.com/assets/client';
         } else 
         {
             $destinationFolderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/assets/client';
