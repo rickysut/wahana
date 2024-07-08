@@ -42,13 +42,13 @@ class GenerateSolution implements ShouldQueue
         if (config('wahana.workplace') == 'server')
         {
             //server
-            $destinationFile = '/var/www/wahanatatar.com/sections/solutions.php';
-            $assetFolder = '/var/www/wahanatatar.com/assets/img/solutions/';
-            $solutionIndex = '/var/www/wahanatatar.com/solutions/indexblog.php';
-            $singlePath = '/var/www/wahanatatar.com/solutions/';
-            $bannerPath = '/var/www/wahanatatar.com/assets/img/solutions/banner/';
-            $sidebarPage = '/var/www/wahanatatar.com/solutions/sidebar.php';
-            $dataPage = '/var/www/wahanatatar.com/config/datapage.php';
+            $destinationFile = '/var/www/wahana/sections/solutions.php';
+            $assetFolder = '/var/www/wahana/assets/img/solutions/';
+            $solutionIndex = '/var/www/wahana/solutions/indexblog.php';
+            $singlePath = '/var/www/wahana/solutions/';
+            $bannerPath = '/var/www/wahana/assets/img/solutions/banner/';
+            $sidebarPage = '/var/www/wahana/solutions/sidebar.php';
+            $dataPage = '/var/www/wahana/config/datapage.php';
         } else 
         {
             //local

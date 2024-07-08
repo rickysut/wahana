@@ -39,7 +39,7 @@ class GenerateFooter implements ShouldQueue
         if (config('wahana.workplace') == 'server')
         {
             //server
-            $footFile = '/var/www/wahanatatar.com/partials/foot_event.php';
+            $footFile = '/var/www/wahana/partials/foot_event.php';
             
         } else 
         {

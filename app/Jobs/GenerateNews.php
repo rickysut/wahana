@@ -40,11 +40,11 @@ class GenerateNews implements ShouldQueue
         if (config('wahana.workplace') == 'server')
         {
             //server
-            $indexFile = '/var/www/wahanatatar.com/news/index.php';
-            $assetFolder = '/var/www/wahanatatar.com/assets/img/news/';
-            $sliderPath = '/var/www/wahanatatar.com/assets/img/news/slider/';
-            $singlePath = '/var/www/wahanatatar.com/news/';
-            $sidebarPage = '/var/www/wahanatatar.com/news/sidebar.php';
+            $indexFile = '/var/www/wahana/news/index.php';
+            $assetFolder = '/var/www/wahana/assets/img/news/';
+            $sliderPath = '/var/www/wahana/assets/img/news/slider/';
+            $singlePath = '/var/www/wahana/news/';
+            $sidebarPage = '/var/www/wahana/news/sidebar.php';
         } else 
         {
             // local

@@ -36,7 +36,7 @@ class MoveMedia implements ShouldQueue
         $images =  Storage::files('media');
         if (config('wahana.workplace') == 'server')
         {
-            $destinationFolderPath = '/var/www/wahanatatar.com/storage/media';
+            $destinationFolderPath = '/var/www/wahana/storage/media';
         } else 
         {
             $destinationFolderPath = '/Users/rickysutanto/Development/Laravel/wahanatatar3/storage/media';

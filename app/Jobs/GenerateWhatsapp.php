@@ -39,9 +39,9 @@ class GenerateWhatsapp implements ShouldQueue
         Log::info('GenerateContact');
         if (config('wahana.workplace') == 'server')
         {
-            $waFile = '/var/www/wahanatatar.com/partials/whatsapp-button.php';
-            $configfile = '/var/www/wahanatatar.com/config/phonenumber.php';
-            $bookFile = '/var/www/wahanatatar.com/partials/book-now-button.php';
+            $waFile = '/var/www/wahana/partials/whatsapp-button.php';
+            $configfile = '/var/www/wahana/config/phonenumber.php';
+            $bookFile = '/var/www/wahana/partials/book-now-button.php';
         } else 
         {
             $waFile = '/Users/rickysutanto/Development/Laravel/wahanatatar3/partials/whatsapp-button.php';

@@ -42,11 +42,11 @@ class GenerateEvents implements ShouldQueue
         if (config('wahana.workplace') == 'server')
         {
             //server
-            $indexFile = '/var/www/wahanatatar.com/events/index.php';
-            $assetFolder = '/var/www/wahanatatar.com/assets/img/events/';
-            $sliderPath = '/var/www/wahanatatar.com/assets/img/events/slider/';
-            $singlePath = '/var/www/wahanatatar.com/events/';
-            $sidebarPage = '/var/www/wahanatatar.com/events/sidebar.php';
+            $indexFile = '/var/www/wahana/events/index.php';
+            $assetFolder = '/var/www/wahana/assets/img/events/';
+            $sliderPath = '/var/www/wahana/assets/img/events/slider/';
+            $singlePath = '/var/www/wahana/events/';
+            $sidebarPage = '/var/www/wahana/events/sidebar.php';
         } else 
         {
             // local
